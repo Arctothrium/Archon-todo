@@ -3,561 +3,1589 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Archon — Your Study Command Center</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Archon — Study Command Center</title>
+
 <style>
-  :root{
-    --ink:#1a1410;
-    --cream:#fdf8ef;
-    --gold:#f6b93b;
-    --gold-deep:#f0932b;
-    --orange:#f5871f;
-    --orange-deep:#ea6a1f;
-    --blue:#3aa0e8;
-    --blue-deep:#1f6fd6;
-    --pink:#e84c8a;
-    --panel-radius: 26px;
+:root{
+  --ink:#171717;
+  --cream:#f6f0e4;
+  --gold:#e6b84a;
+  --gold-deep:#b88920;
+  --orange:#e47b35;
+  --orange-deep:#b9541d;
+  --blue:#163d63;
+  --blue-deep:#0d2944;
+  --pink:#d96b82;
+  --white:#fffdf8;
+  --muted:#777;
+  --radius:22px;
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  background:#ddd7ca;
+  color:var(--ink);
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+button,
+input,
+textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.app{
+  width:100%;
+  max-width:480px;
+  min-height:100vh;
+  margin:auto;
+  background:var(--cream);
+  position:relative;
+  padding-bottom:90px;
+  box-shadow:0 0 30px rgba(0,0,0,.12);
+}
+
+/* HEADER */
+
+header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:20px 20px 12px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:24px;
+  font-weight:900;
+  letter-spacing:-1px;
+}
+
+.logo{
+  width:34px;
+  height:34px;
+}
+
+.header-actions{
+  display:flex;
+  gap:8px;
+}
+
+.icon-btn{
+  width:40px;
+  height:40px;
+  border:2px solid var(--ink);
+  background:var(--white);
+  border-radius:13px;
+  display:grid;
+  place-items:center;
+  font-size:18px;
+  transition:.15s;
+}
+
+.icon-btn:active{
+  transform:scale(.94);
+}
+
+/* HERO */
+
+.hero{
+  padding:15px 20px 20px;
+}
+
+.hero h1{
+  font-size:38px;
+  line-height:1;
+  letter-spacing:-2px;
+  max-width:350px;
+}
+
+.hero p{
+  margin-top:9px;
+  font-size:14px;
+  font-weight:700;
+  color:#555;
+}
+
+.search{
+  margin-top:18px;
+  width:100%;
+  border:2px solid var(--ink);
+  background:var(--white);
+  border-radius:15px;
+  padding:13px 15px;
+  outline:none;
+}
+
+.search:focus{
+  box-shadow:4px 4px 0 var(--gold);
+}
+
+/* OUTLAYER */
+
+.section{
+  padding:0 20px 20px;
+}
+
+.section-title{
+  font-size:12px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  margin-bottom:10px;
+}
+
+.pills{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+
+.pills::-webkit-scrollbar{
+  display:none;
+}
+
+.pill{
+  white-space:nowrap;
+  border:2px solid var(--ink);
+  background:var(--white);
+  padding:9px 15px;
+  border-radius:30px;
+  font-weight:800;
+}
+
+.pill.active{
+  background:var(--ink);
+  color:white;
+}
+
+/* MAIN CARD */
+
+.command-card{
+  margin:0 20px 20px;
+  background:var(--blue);
+  color:white;
+  border-radius:var(--radius);
+  padding:20px;
+  box-shadow:6px 6px 0 var(--blue-deep);
+}
+
+.card-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.card-label{
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:1.7px;
+  text-transform:uppercase;
+  opacity:.7;
+}
+
+.add-btn{
+  border:2px solid white;
+  color:white;
+  background:transparent;
+  border-radius:12px;
+  padding:7px 11px;
+  font-weight:900;
+}
+
+.add-btn:active{
+  transform:scale(.95);
+}
+
+.card-title{
+  margin-top:8px;
+  font-size:25px;
+  font-weight:900;
+}
+
+/* PROGRESS */
+
+.progress-area{
+  margin-top:18px;
+}
+
+.progress-info{
+  display:flex;
+  justify-content:space-between;
+  font-size:12px;
+  font-weight:800;
+  margin-bottom:7px;
+}
+
+.progress-bar{
+  width:100%;
+  height:9px;
+  background:rgba(255,255,255,.2);
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.progress-fill{
+  height:100%;
+  width:0%;
+  background:var(--gold);
+  border-radius:10px;
+  transition:.3s;
+}
+
+/* ITEMS */
+
+.items{
+  margin-top:18px;
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+}
+
+.item{
+  background:var(--white);
+  color:var(--ink);
+  border-radius:15px;
+  padding:12px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.check{
+  width:23px;
+  height:23px;
+  flex:none;
+  border:2px solid var(--ink);
+  border-radius:7px;
+  background:white;
+  display:grid;
+  place-items:center;
+  font-size:14px;
+  font-weight:900;
+}
+
+.item.completed .check{
+  background:var(--gold);
+}
+
+.item.completed .item-text{
+  text-decoration:line-through;
+  opacity:.5;
+}
+
+.item-content{
+  min-width:0;
+  flex:1;
+}
+
+.item-text{
+  font-weight:800;
+  overflow-wrap:anywhere;
+}
+
+.item-meta{
+  font-size:11px;
+  color:#777;
+  margin-top:3px;
+}
+
+.delete{
+  border:0;
+  background:transparent;
+  font-size:17px;
+  padding:5px;
+  color:#888;
+}
+
+/* NOTE */
+
+.note-item{
+  display:block;
+}
+
+.note-title{
+  font-weight:900;
+  font-size:16px;
+}
+
+.note-body{
+  margin-top:6px;
+  white-space:pre-wrap;
+  color:#555;
+  font-size:13px;
+  line-height:1.4;
+}
+
+/* GOAL */
+
+.goal-item{
+  display:block;
+}
+
+.goal-header{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  font-weight:900;
+}
+
+.goal-slider{
+  width:100%;
+  margin-top:12px;
+  accent-color:var(--orange);
+}
+
+/* EMPTY */
+
+.empty{
+  text-align:center;
+  padding:25px 10px;
+  opacity:.65;
+  font-size:13px;
+  font-weight:700;
+}
+
+/* STATS */
+
+.stats{
+  padding:0 20px 20px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:9px;
+}
+
+.stat{
+  background:var(--white);
+  border:2px solid var(--ink);
+  border-radius:16px;
+  padding:13px 10px;
+}
+
+.stat-number{
+  font-size:24px;
+  font-weight:900;
+}
+
+.stat-label{
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  font-weight:900;
+  color:#777;
+  margin-top:3px;
+}
+
+/* BOTTOM NAV */
+
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(480px,100%);
+  background:var(--white);
+  border-top:2px solid var(--ink);
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  padding:9px 8px calc(9px + env(safe-area-inset-bottom));
+  z-index:10;
+}
+
+.nav-btn{
+  border:0;
+  background:transparent;
+  padding:7px 3px;
+  border-radius:12px;
+  font-size:11px;
+  font-weight:900;
+}
+
+.nav-icon{
+  display:block;
+  font-size:19px;
+  margin-bottom:2px;
+}
+
+.nav-btn.active{
+  background:var(--ink);
+  color:white;
+}
+
+/* MODAL */
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  display:none;
+  align-items:flex-end;
+  justify-content:center;
+  z-index:20;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-box{
+  width:min(480px,100%);
+  background:var(--cream);
+  border-radius:25px 25px 0 0;
+  padding:22px;
+  animation:slideUp .2s ease;
+}
+
+@keyframes slideUp{
+  from{
+    transform:translateY(100%);
   }
-  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
-  html,body{margin:0;padding:0;}
+  to{
+    transform:translateY(0);
+  }
+}
+
+.modal-box h2{
+  font-size:24px;
+  margin-bottom:15px;
+}
+
+.form{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.form input,
+.form textarea,
+.form select{
+  width:100%;
+  border:2px solid var(--ink);
+  border-radius:13px;
+  background:white;
+  padding:12px;
+  outline:none;
+}
+
+.form textarea{
+  min-height:110px;
+  resize:vertical;
+}
+
+.form-actions{
+  display:flex;
+  gap:9px;
+  margin-top:5px;
+}
+
+.form-actions button{
+  flex:1;
+  border:2px solid var(--ink);
+  border-radius:13px;
+  padding:12px;
+  font-weight:900;
+}
+
+.cancel{
+  background:white;
+}
+
+.save{
+  background:var(--ink);
+  color:white;
+}
+
+/* MOBILE */
+
+@media(max-width:480px){
   body{
-    font-family:'Inter',sans-serif;
     background:var(--cream);
-    color:var(--ink);
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
   }
+
   .app{
-    width:100%;
-    max-width:480px;
-    min-height:100vh;
-    background:var(--cream);
-    position:relative;
-    overflow-x:hidden;
-    box-shadow:0 0 40px rgba(0,0,0,0.08);
+    box-shadow:none;
   }
-  /* Header */
-  header.topbar{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:18px 20px;
-    background:#fff;
-    border-bottom:1px solid #f0e9db;
-  }
-  .logo-mark{
-    width:30px;height:30px;position:relative;flex-shrink:0;
-  }
-  .logo-mark svg{width:100%;height:100%;display:block;}
-  .brand{
-    font-family:'Playfair Display',serif;
-    font-weight:700;
-    font-size:22px;
-    letter-spacing:0.2px;
-  }
-  /* Hero */
-  .hero{
-    position:relative;
-    padding:34px 20px 34px;
-    background:linear-gradient(135deg, var(--gold) 0%, var(--gold-deep) 45%, var(--orange) 100%);
-    overflow:hidden;
-  }
-  .hero::before{
-    content:"";
-    position:absolute;
-    right:-60px; bottom:-90px;
-    width:220px;height:220px;
-    background:var(--cream);
-    border-radius:50%;
-    opacity:0.9;
-  }
-  .hero-top{
-    display:flex;
-    justify-content:flex-end;
-    gap:16px;
-    position:relative;
-    z-index:2;
-    margin-bottom:10px;
-  }
-  .icon-btn{
-    background:none;border:none;cursor:pointer;
-    color:#241a10;
-    display:flex;align-items:center;justify-content:center;
-    padding:4px;
-    opacity:0.85;
-    transition:opacity .15s, transform .15s;
-  }
-  .icon-btn:hover{opacity:1; transform:translateY(-1px);}
-  .icon-btn.active{opacity:1;}
-  .icon-btn svg{width:22px;height:22px;}
-  h1.hero-title{
-    font-family:'Playfair Display',serif;
-    font-weight:700;
-    font-size:38px;
-    line-height:1.08;
-    margin:2px 0 8px;
-    position:relative;
-    z-index:2;
-    max-width:78%;
-  }
-  .hero-sub{
-    font-family:'Playfair Display',serif;
-    font-style:italic;
-    font-size:16px;
-    margin:0 0 20px;
-    position:relative;
-    z-index:2;
-    color:#2b1e10;
-  }
-  .search-wrap{
-    position:relative;
-    z-index:2;
-  }
-  .search-wrap input{
-    width:100%;
-    border:none;
-    outline:none;
-    background:#fffdf9;
-    border-radius:999px;
-    padding:15px 20px 15px 46px;
-    font-size:15px;
-    font-family:'Inter',sans-serif;
-    color:#3a2c18;
-    box-shadow:0 6px 18px rgba(80,40,0,0.12);
-  }
-  .search-wrap input::placeholder{color:#a89a82;}
-  .search-wrap svg{
-    position:absolute;
-    left:16px; top:50%;
-    transform:translateY(-50%);
-    width:18px;height:18px;
-    color:#a89a82;
-  }
-  /* Outlayer section */
-  .outlayer{
-    position:relative;
-    padding:32px 20px 40px;
-    background:radial-gradient(circle at 85% 30%, #6cc4f0 0%, #bfe4f9 35%, var(--cream) 68%);
-    overflow:hidden;
-  }
-  h2.section-title{
-    font-family:'Playfair Display',serif;
-    font-weight:800;
+
+  .hero h1{
     font-size:34px;
-    margin:0 0 22px;
-    position:relative;
-    z-index:2;
   }
-  .card-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:16px;
-    position:relative;
-    z-index:2;
-  }
-  .nav-card{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    background:linear-gradient(135deg, #ffce6b, var(--gold-deep));
-    border:none;
-    border-radius:999px;
-    padding:8px 8px 8px 6px;
-    cursor:pointer;
-    font-family:'Inter',sans-serif;
-    box-shadow:0 6px 14px rgba(200,120,0,0.18);
-    transition:transform .15s, box-shadow .15s;
-  }
-  .nav-card:active{transform:scale(0.97);}
-  .nav-card.selected{
-    outline:2px solid #241a10;
-    outline-offset:2px;
-  }
-  .nav-card .pill-label{
-    background:var(--cream);
-    border-radius:999px;
-    padding:12px 18px;
-    font-weight:600;
-    font-size:14px;
-    color:#3a2c18;
-    flex:1;
-    text-align:left;
-  }
-  .nav-card .chev{
-    width:20px;height:20px;
-    margin:0 8px;
-    color:#3a2c18;
-    flex-shrink:0;
-  }
-  /* Today's task list section */
-  .list-section{
-    position:relative;
-    padding:34px 20px 50px;
-    background:
-      radial-gradient(circle at 10% 15%, rgba(232,76,138,0.55) 0%, rgba(232,76,138,0) 45%),
-      radial-gradient(circle at 90% 85%, rgba(245,135,31,0.7) 0%, rgba(245,135,31,0) 45%),
-      linear-gradient(160deg, #12141c 0%, #1f3a63 45%, var(--blue-deep) 100%);
-    min-height:340px;
-    overflow:hidden;
-  }
-  .list-section::after{
-    content:"";
-    position:absolute;
-    right:-80px; bottom:-100px;
-    width:260px;height:260px;
-    background:radial-gradient(circle, var(--orange) 0%, var(--gold) 55%, transparent 75%);
-    border-radius:50%;
-    opacity:0.9;
-  }
-  .list-section h2{
-    color:var(--cream);
-    position:relative;
-    z-index:2;
-  }
-  .task-rows{
-    position:relative;
-    z-index:2;
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-  }
-  .task-row{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    background:#fdf8ef;
-    border-radius:999px;
-    padding:10px 14px;
-    box-shadow:0 6px 14px rgba(0,0,0,0.18);
-    position:relative;
-  }
-  .task-check{
-    width:22px;height:22px;
-    border-radius:50%;
-    border:2px solid #cbb98f;
-    background:#fff;
-    flex-shrink:0;
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    transition:background .15s, border-color .15s;
-  }
-  .task-check.done{
-    background:var(--orange-deep);
-    border-color:var(--orange-deep);
-  }
-  .task-check svg{width:13px;height:13px;color:#fff; display:none;}
-  .task-check.done svg{display:block;}
-  .task-text{
-    flex:1;
-    border:none;
-    outline:none;
-    background:transparent;
-    font-family:'Inter',sans-serif;
-    font-weight:700;
-    font-size:14.5px;
-    text-align:center;
-    color:#241a10;
-    padding:4px 2px;
-  }
-  .task-text::placeholder{
-    color:#9c9082;
-    font-weight:600;
-  }
-  .task-row.done .task-text{
-    text-decoration:line-through;
-    color:#a89a82;
-  }
-  .task-del{
-    background:none;
-    border:none;
-    color:#c7b8a0;
-    cursor:pointer;
-    font-size:18px;
-    line-height:1;
-    padding:2px 4px;
-    flex-shrink:0;
-    opacity:0;
-    transition:opacity .15s;
-  }
-  .task-row:hover .task-del,
-  .task-row:focus-within .task-del{opacity:1;}
-  .empty-hint{
-    position:relative;
-    z-index:2;
-    color:#d8cdb8;
-    font-size:13px;
-    margin-top:14px;
-    text-align:center;
-  }
-  footer.tab-bar{
-    display:flex;
-    justify-content:space-around;
-    background:#fff;
-    border-top:1px solid #f0e9db;
-    padding:12px 10px 18px;
-  }
-  .tab-btn{
-    background:none;border:none;cursor:pointer;
-    display:flex;flex-direction:column;align-items:center;gap:4px;
-    color:#b8ab92;
-    font-family:'Inter',sans-serif;
-    font-size:11px;
-    font-weight:600;
-    transition:color .15s;
-  }
-  .tab-btn svg{width:20px;height:20px;}
-  .tab-btn.selected{color:var(--orange-deep);}
+}
 </style>
 </head>
+
 <body>
+
 <div class="app">
 
-  <header class="topbar">
-    <div class="logo-mark">
-      <svg viewBox="0 0 30 30" fill="none">
-        <path d="M15 2 L26 22 L15 17 Z" fill="#f0932b"/>
-        <path d="M15 2 L4 22 L15 17 Z" fill="#f6b93b"/>
-        <path d="M15 17 L26 22 L15 28 L4 22 Z" fill="#241a10"/>
-      </svg>
-    </div>
-    <div class="brand">Archon</div>
-  </header>
+<header>
+  <div class="brand">
+    <svg class="logo" viewBox="0 0 40 40" fill="none">
+      <rect x="3" y="3" width="34" height="34" rx="10" fill="#E6B84A" stroke="#171717" stroke-width="3"/>
+      <path d="M12 27L20 11L28 27" stroke="#171717" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M15 22H25" stroke="#171717" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+    Archon
+  </div>
 
-  <section class="hero">
-    <div class="hero-top">
-      <button class="icon-btn active" title="Home" aria-label="Home">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg>
-      </button>
-      <button class="icon-btn" title="Notes" aria-label="Notes" data-goto="notes">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5C6 3.5 9 3.5 12 4.5c3-1 6-1 8 0v15c-2-1-5-1-8 0-3-1-6-1-8 0Z"/><path d="M12 4.5v15"/></svg>
-      </button>
-      <button class="icon-btn" title="Tasks" aria-label="Tasks" data-goto="tasks">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 3h6v3H9z"/><path d="M9 12h6M9 16h4"/></svg>
-      </button>
-      <button class="icon-btn" title="Add task" aria-label="Add task" id="quickAdd">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
-      </button>
-    </div>
-    <h1 class="hero-title">Your Study Command Center</h1>
-    <p class="hero-sub">Organise. Focus. Execute.</p>
-    <div class="search-wrap">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
-      <input id="searchInput" type="text" placeholder="Search Tasks, Notes...">
-    </div>
-  </section>
+  <div class="header-actions">
+    <button class="icon-btn" id="clearSearch">⌕</button>
+    <button class="icon-btn" id="quickAdd">＋</button>
+  </div>
+</header>
 
-  <section class="outlayer">
-    <h2 class="section-title">Outlayer<span style="font-weight:400;">.</span></h2>
-    <div class="card-grid">
-      <button class="nav-card" data-list="notes">
-        <span class="pill-label">Notes</span>
-        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
-      </button>
-      <button class="nav-card selected" data-list="tasks">
-        <span class="pill-label">Tasks</span>
-        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
-      </button>
-      <button class="nav-card" data-list="next">
-        <span class="pill-label">Next</span>
-        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
-      </button>
-      <button class="nav-card" data-list="goals">
-        <span class="pill-label">Goals</span>
-        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
-      </button>
+
+<section class="hero">
+  <h1>Your Study Command Center</h1>
+  <p>Organise. Focus. Execute.</p>
+
+  <input
+    id="search"
+    class="search"
+    type="search"
+    placeholder="Search everything..."
+  >
+</section>
+
+
+<section class="section">
+  <div class="section-title">Outlayer.</div>
+
+  <div class="pills">
+    <button class="pill active" data-section="tasks">Tasks</button>
+    <button class="pill" data-section="notes">Notes</button>
+    <button class="pill" data-section="next">Next</button>
+    <button class="pill" data-section="goals">Goals</button>
+  </div>
+</section>
+
+
+<section class="command-card">
+
+  <div class="card-top">
+    <div class="card-label" id="cardLabel">Today's Task</div>
+    <button class="add-btn" id="addButton">+ Add</button>
+  </div>
+
+  <div class="card-title" id="cardTitle">
+    Execute your priorities.
+  </div>
+
+  <div class="progress-area">
+    <div class="progress-info">
+      <span id="progressText">0% complete</span>
+      <span id="progressCount">0 / 0</span>
     </div>
-  </section>
 
-  <section class="list-section" id="listSection">
-    <h2 class="section-title" id="listTitle">Today's Task</h2>
-    <div class="task-rows" id="taskRows"></div>
-    <div class="empty-hint" id="emptyHint" style="display:none;">Nothing here yet — start typing above.</div>
-  </section>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </div>
 
-  <footer class="tab-bar">
-    <button class="tab-btn selected" data-list="tasks">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 12h6M9 16h4"/></svg>
-      Tasks
-    </button>
-    <button class="tab-btn" data-list="notes">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5C6 3.5 9 3.5 12 4.5c3-1 6-1 8 0v15c-2-1-5-1-8 0-3-1-6-1-8 0Z"/></svg>
-      Notes
-    </button>
-    <button class="tab-btn" data-list="next">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
-      Next
-    </button>
-    <button class="tab-btn" data-list="goals">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.6" fill="currentColor"/></svg>
-      Goals
-    </button>
-  </footer>
+  <div class="items" id="items"></div>
+
+</section>
+
+
+<section class="stats">
+
+  <div class="stat">
+    <div class="stat-number" id="statTasks">0</div>
+    <div class="stat-label">Tasks</div>
+  </div>
+
+  <div class="stat">
+    <div class="stat-number" id="statDone">0</div>
+    <div class="stat-label">Done</div>
+  </div>
+
+  <div class="stat">
+    <div class="stat-number" id="statGoals">0</div>
+    <div class="stat-label">Goals</div>
+  </div>
+
+</section>
 
 </div>
 
+
+<nav class="bottom-nav">
+
+  <button class="nav-btn active" data-section="tasks">
+    <span class="nav-icon">✓</span>
+    Tasks
+  </button>
+
+  <button class="nav-btn" data-section="notes">
+    <span class="nav-icon">▤</span>
+    Notes
+  </button>
+
+  <button class="nav-btn" data-section="next">
+    <span class="nav-icon">→</span>
+    Next
+  </button>
+
+  <button class="nav-btn" data-section="goals">
+    <span class="nav-icon">◎</span>
+    Goals
+  </button>
+
+</nav>
+
+
+<!-- MODAL -->
+
+<div class="modal" id="modal">
+
+  <div class="modal-box">
+
+    <h2 id="modalTitle">Add Task</h2>
+
+    <form class="form" id="form"></form>
+
+  </div>
+
+</div>
+
+
 <script>
-(function(){
-  const LISTS = ['tasks','notes','next','goals'];
-  const TITLES = { tasks:"Today's Task", notes:"Your Notes", next:"Coming Up Next", goals:"Your Goals" };
-  const PLACEHOLDERS = {
-    tasks:"Type here to set task",
-    notes:"Type here to add a note",
-    next:"Type here to plan what's next",
-    goals:"Type here to set a goal"
+
+const STORAGE_KEY = "archon-study-data-v4";
+
+let data = loadData();
+
+let currentSection = "tasks";
+
+let searchTerm = "";
+
+
+/* ---------------- DATA ---------------- */
+
+function defaultData(){
+
+  return {
+    tasks: [],
+    notes: [],
+    next: [],
+    goals: []
   };
 
-  let currentList = 'tasks';
-  let data = { tasks:[], notes:[], next:[], goals:[] };
-  let searchTerm = '';
-  let storageReady = true;
+}
 
-  const rowsEl = document.getElementById('taskRows');
-  const titleEl = document.getElementById('listTitle');
-  const emptyHint = document.getElementById('emptyHint');
-  const searchInput = document.getElementById('searchInput');
 
-  function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+function loadData(){
 
-  async function loadAll(){
-    for(const key of LISTS){
-      try{
-        const raw = localStorage.getItem('archon:'+key);
-        if(raw){
-          data[key] = JSON.parse(raw);
-        }
-      }catch(e){
-        // key not found yet or storage unavailable — keep default empty list
-      }
+  try{
+
+    const saved = localStorage.getItem(STORAGE_KEY);
+
+    if(saved){
+
+      const parsed = JSON.parse(saved);
+
+      return {
+        tasks:Array.isArray(parsed.tasks) ? parsed.tasks : [],
+        notes:Array.isArray(parsed.notes) ? parsed.notes : [],
+        next:Array.isArray(parsed.next) ? parsed.next : [],
+        goals:Array.isArray(parsed.goals) ? parsed.goals : []
+      };
+
     }
+
+  }catch(error){
+
+    console.log("Could not load saved data.", error);
+
+  }
+
+  return defaultData();
+
+}
+
+
+function saveData(){
+
+  try{
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(data)
+    );
+
+  }catch(error){
+
+    console.log("Could not save data.", error);
+
+  }
+
+}
+
+
+/* ---------------- HELPERS ---------------- */
+
+function createId(){
+
+  return Date.now().toString(36) +
+         Math.random().toString(36).slice(2);
+
+}
+
+
+function escapeText(value){
+
+  return String(value ?? "");
+
+}
+
+
+function filteredItems(){
+
+  const items = data[currentSection];
+
+  if(!searchTerm.trim()) return items;
+
+  const term = searchTerm.toLowerCase();
+
+  return items.filter(item =>
+    JSON.stringify(item)
+      .toLowerCase()
+      .includes(term)
+  );
+
+}
+
+
+/* ---------------- RENDER ---------------- */
+
+function render(){
+
+  renderHeader();
+
+  renderItems();
+
+  renderProgress();
+
+  renderStats();
+
+}
+
+
+function renderHeader(){
+
+  const labels = {
+
+    tasks:"Today's Task",
+    notes:"Study Notes",
+    next:"Up Next",
+    goals:"Your Goals"
+
+  };
+
+  const titles = {
+
+    tasks:"Execute your priorities.",
+    notes:"Capture what matters.",
+    next:"Know what comes next.",
+    goals:"Build toward something."
+
+  };
+
+  document.getElementById("cardLabel").textContent =
+    labels[currentSection];
+
+  document.getElementById("cardTitle").textContent =
+    titles[currentSection];
+
+}
+
+
+function renderItems(){
+
+  const container =
+    document.getElementById("items");
+
+  container.innerHTML = "";
+
+  const items = filteredItems();
+
+  if(items.length === 0){
+
+    const empty = document.createElement("div");
+
+    empty.className = "empty";
+
+    empty.textContent =
+      searchTerm
+      ? "Nothing matches your search."
+      : "Nothing here yet. Add something.";
+
+    container.appendChild(empty);
+
+    return;
+
+  }
+
+  items.forEach(item => {
+
+    if(currentSection === "tasks")
+      container.appendChild(createTask(item));
+
+    if(currentSection === "notes")
+      container.appendChild(createNote(item));
+
+    if(currentSection === "next")
+      container.appendChild(createNext(item));
+
+    if(currentSection === "goals")
+      container.appendChild(createGoal(item));
+
+  });
+
+}
+
+
+function createTask(item){
+
+  const row = document.createElement("div");
+
+  row.className =
+    "item" + (item.completed ? " completed" : "");
+
+  const check = document.createElement("button");
+
+  check.className = "check";
+
+  check.textContent =
+    item.completed ? "✓" : "";
+
+  check.onclick = () => {
+
+    item.completed = !item.completed;
+
+    saveData();
+
     render();
+
+  };
+
+
+  const content = document.createElement("div");
+
+  content.className = "item-content";
+
+
+  const text = document.createElement("div");
+
+  text.className = "item-text";
+
+  text.textContent = item.text;
+
+
+  content.appendChild(text);
+
+
+  if(item.created){
+
+    const meta = document.createElement("div");
+
+    meta.className = "item-meta";
+
+    meta.textContent =
+      new Date(item.created).toLocaleDateString();
+
+    content.appendChild(meta);
+
   }
 
-  async function saveList(key){
-    try{
-      localStorage.setItem('archon:'+key, JSON.stringify(data[key]));
-    }catch(e){
-      storageReady = false;
-      console.error('Storage save failed', e);
-    }
-  }
 
-  function ensureTrailingBlank(){
-    const list = data[currentList];
-    const last = list[list.length-1];
-    if(!last || last.text.trim() !== ''){
-      list.push({ id: uid(), text:'', done:false });
-    }
-  }
+  const del = createDeleteButton(item.id);
 
-  function render(){
-    titleEl.textContent = TITLES[currentList];
-    document.querySelectorAll('.nav-card').forEach(c=>{
-      c.classList.toggle('selected', c.dataset.list === currentList);
-    });
-    document.querySelectorAll('.tab-btn').forEach(c=>{
-      c.classList.toggle('selected', c.dataset.list === currentList);
-    });
+  row.append(check,content,del);
 
-    ensureTrailingBlank();
+  return row;
 
-    const list = data[currentList];
-    const term = searchTerm.trim().toLowerCase();
-    const visible = list.filter(item => !term || item.text.toLowerCase().includes(term) || item.text.trim()==='');
+}
 
-    rowsEl.innerHTML = '';
-    let anyFilled = false;
 
-    visible.forEach(item=>{
-      if(item.text.trim() !== '') anyFilled = true;
-      const row = document.createElement('div');
-      row.className = 'task-row' + (item.done ? ' done' : '');
+function createNext(item){
 
-      const check = document.createElement('button');
-      check.className = 'task-check' + (item.done ? ' done' : '');
-      check.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
-      check.addEventListener('click', ()=>{
-        item.done = !item.done;
-        saveList(currentList);
-        render();
-      });
+  const row = document.createElement("div");
 
-      const input = document.createElement('input');
-      input.className = 'task-text';
-      input.type = 'text';
-      input.placeholder = PLACEHOLDERS[currentList];
-      input.value = item.text;
-      input.addEventListener('input', (e)=>{
-        item.text = e.target.value;
-      });
-      input.addEventListener('blur', ()=>{
-        item.text = item.text.trim();
-        saveList(currentList);
-        render();
-      });
-      input.addEventListener('keydown', (e)=>{
-        if(e.key === 'Enter'){
-          e.target.blur();
-        }
-      });
+  row.className =
+    "item" + (item.completed ? " completed" : "");
 
-      const del = document.createElement('button');
-      del.className = 'task-del';
-      del.setAttribute('aria-label','Delete');
-      del.textContent = '\u00d7';
-      del.addEventListener('click', ()=>{
-        data[currentList] = data[currentList].filter(x=>x.id !== item.id);
-        saveList(currentList);
-        render();
-      });
+  const check = document.createElement("button");
 
-      row.appendChild(check);
-      row.appendChild(input);
-      if(item.text.trim() !== ''){
-        row.appendChild(del);
-      }
-      rowsEl.appendChild(row);
-    });
+  check.className = "check";
 
-    emptyHint.style.display = (term && !anyFilled) ? 'block' : 'none';
-  }
+  check.textContent =
+    item.completed ? "✓" : "";
 
-  document.querySelectorAll('.nav-card, .tab-btn').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      currentList = btn.dataset.list;
+  check.onclick = () => {
+
+    item.completed = !item.completed;
+
+    saveData();
+
+    render();
+
+  };
+
+
+  const content = document.createElement("div");
+
+  content.className = "item-content";
+
+
+  const text = document.createElement("div");
+
+  text.className = "item-text";
+
+  text.textContent = item.text;
+
+  content.appendChild(text);
+
+
+  const meta = document.createElement("div");
+
+  meta.className = "item-meta";
+
+  const parts = [];
+
+  if(item.date) parts.push(item.date);
+
+  if(item.priority) parts.push("Priority: " + item.priority);
+
+  meta.textContent = parts.join(" • ");
+
+  content.appendChild(meta);
+
+
+  const del = createDeleteButton(item.id);
+
+  row.append(check,content,del);
+
+  return row;
+
+}
+
+
+function createNote(item){
+
+  const row = document.createElement("div");
+
+  row.className = "item note-item";
+
+
+  const content = document.createElement("div");
+
+  content.className = "item-content";
+
+
+  const title = document.createElement("div");
+
+  title.className = "note-title";
+
+  title.textContent =
+    item.title || "Untitled note";
+
+
+  const body = document.createElement("div");
+
+  body.className = "note-body";
+
+  body.textContent =
+    item.body || "Empty note";
+
+
+  content.append(title,body);
+
+
+  const del = createDeleteButton(item.id);
+
+  row.append(content,del);
+
+  return row;
+
+}
+
+
+function createGoal(item){
+
+  const row = document.createElement("div");
+
+  row.className = "item goal-item";
+
+
+  const header = document.createElement("div");
+
+  header.className = "goal-header";
+
+
+  const title = document.createElement("span");
+
+  title.textContent = item.text;
+
+
+  const percentage = document.createElement("span");
+
+  percentage.textContent =
+    (item.progress || 0) + "%";
+
+
+  header.append(title,percentage);
+
+
+  const slider = document.createElement("input");
+
+  slider.type = "range";
+
+  slider.min = "0";
+
+  slider.max = "100";
+
+  slider.value = item.progress || 0;
+
+  slider.className = "goal-slider";
+
+
+  slider.oninput = () => {
+
+    item.progress = Number(slider.value);
+
+    percentage.textContent =
+      item.progress + "%";
+
+    saveData();
+
+    renderProgress();
+
+    renderStats();
+
+  };
+
+
+  const del = createDeleteButton(item.id);
+
+  row.append(header,slider,del);
+
+  return row;
+
+}
+
+
+function createDeleteButton(id){
+
+  const button = document.createElement("button");
+
+  button.className = "delete";
+
+  button.textContent = "×";
+
+  button.title = "Delete";
+
+  button.onclick = () => {
+
+    if(confirm("Delete this item?")){
+
+      data[currentSection] =
+        data[currentSection].filter(
+          item => item.id !== id
+        );
+
+      saveData();
+
       render();
-      document.getElementById('listSection').scrollIntoView({behavior:'smooth', block:'start'});
+
+    }
+
+  };
+
+  return button;
+
+}
+
+
+/* ---------------- PROGRESS ---------------- */
+
+function renderProgress(){
+
+  const items = data[currentSection];
+
+  let percentage = 0;
+
+  if(currentSection === "goals"){
+
+    if(items.length){
+
+      percentage =
+        Math.round(
+          items.reduce(
+            (sum,item) =>
+              sum + Number(item.progress || 0),
+            0
+          ) / items.length
+        );
+
+    }
+
+  }else{
+
+    const completed =
+      items.filter(item => item.completed).length;
+
+    percentage =
+      items.length
+      ? Math.round((completed / items.length) * 100)
+      : 0;
+
+  }
+
+
+  document.getElementById("progressFill")
+    .style.width = percentage + "%";
+
+
+  document.getElementById("progressText")
+    .textContent = percentage + "% complete";
+
+
+  if(currentSection === "goals"){
+
+    document.getElementById("progressCount")
+      .textContent = items.length + " goals";
+
+  }else{
+
+    const completed =
+      items.filter(item => item.completed).length;
+
+    document.getElementById("progressCount")
+      .textContent =
+      completed + " / " + items.length;
+
+  }
+
+}
+
+
+function renderStats(){
+
+  const tasks = data.tasks;
+
+  const done =
+    tasks.filter(item => item.completed).length;
+
+  document.getElementById("statTasks")
+    .textContent = tasks.length;
+
+  document.getElementById("statDone")
+    .textContent = done;
+
+  document.getElementById("statGoals")
+    .textContent = data.goals.length;
+
+}
+
+
+/* ---------------- SECTION SWITCHING ---------------- */
+
+function setSection(section){
+
+  currentSection = section;
+
+  document.querySelectorAll("[data-section]")
+    .forEach(button => {
+
+      button.classList.toggle(
+        "active",
+        button.dataset.section === section
+      );
+
     });
-  });
 
-  document.querySelectorAll('[data-goto]').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      currentList = btn.dataset.goto;
-      render();
-      document.getElementById('listSection').scrollIntoView({behavior:'smooth', block:'start'});
+  render();
+
+}
+
+
+/* ---------------- MODAL ---------------- */
+
+function openModal(){
+
+  const modal =
+    document.getElementById("modal");
+
+  const form =
+    document.getElementById("form");
+
+  const title =
+    document.getElementById("modalTitle");
+
+
+  form.innerHTML = "";
+
+  title.textContent =
+    "Add " +
+    currentSection.charAt(0).toUpperCase() +
+    currentSection.slice(1);
+
+
+  if(currentSection === "tasks"){
+
+    form.appendChild(
+      inputField(
+        "text",
+        "Task",
+        "What needs to be done?",
+        "taskText"
+      )
+    );
+
+  }
+
+
+  if(currentSection === "notes"){
+
+    form.appendChild(
+      inputField(
+        "text",
+        "Title",
+        "Note title",
+        "noteTitle"
+      )
+    );
+
+    form.appendChild(
+      textareaField(
+        "Note",
+        "Write your note...",
+        "noteBody"
+      )
+    );
+
+  }
+
+
+  if(currentSection === "next"){
+
+    form.appendChild(
+      inputField(
+        "text",
+        "Item",
+        "What comes next?",
+        "nextText"
+      )
+    );
+
+    form.appendChild(
+      inputField(
+        "date",
+        "Date",
+        "",
+        "nextDate"
+      )
+    );
+
+
+    const select =
+      document.createElement("select");
+
+    select.id = "nextPriority";
+
+    ["Low","Medium","High"].forEach(priority => {
+
+      const option =
+        document.createElement("option");
+
+      option.value = priority;
+
+      option.textContent =
+        priority + " priority";
+
+      select.appendChild(option);
+
     });
+
+    form.appendChild(select);
+
+  }
+
+
+  if(currentSection === "goals"){
+
+    form.appendChild(
+      inputField(
+        "text",
+        "Goal",
+        "What are you working toward?",
+        "goalText"
+      )
+    );
+
+  }
+
+
+  const actions =
+    document.createElement("div");
+
+  actions.className = "form-actions";
+
+
+  const cancel =
+    document.createElement("button");
+
+  cancel.type = "button";
+
+  cancel.className = "cancel";
+
+  cancel.textContent = "Cancel";
+
+  cancel.onclick = closeModal;
+
+
+  const save =
+    document.createElement("button");
+
+  save.type = "submit";
+
+  save.className = "save";
+
+  save.textContent = "Add";
+
+
+  actions.append(cancel,save);
+
+  form.appendChild(actions);
+
+
+  form.onsubmit = saveItem;
+
+  modal.classList.add("show");
+
+
+  setTimeout(() => {
+
+    const first =
+      form.querySelector("input,textarea");
+
+    if(first) first.focus();
+
+  },100);
+
+}
+
+
+function inputField(type,label,placeholder,id){
+
+  const input =
+    document.createElement("input");
+
+  input.type = type;
+
+  input.placeholder = placeholder;
+
+  input.id = id;
+
+  input.setAttribute("aria-label",label);
+
+  return input;
+
+}
+
+
+function textareaField(label,placeholder,id){
+
+  const textarea =
+    document.createElement("textarea");
+
+  textarea.placeholder = placeholder;
+
+  textarea.id = id;
+
+  textarea.setAttribute("aria-label",label);
+
+  return textarea;
+
+}
+
+
+function closeModal(){
+
+  document.getElementById("modal")
+    .classList.remove("show");
+
+}
+
+
+function saveItem(event){
+
+  event.preventDefault();
+
+
+  let item = {
+
+    id:createId(),
+
+    created:Date.now(),
+
+    completed:false
+
+  };
+
+
+  if(currentSection === "tasks"){
+
+    const text =
+      document.getElementById("taskText").value.trim();
+
+    if(!text) return;
+
+    item.text = text;
+
+  }
+
+
+  if(currentSection === "notes"){
+
+    const title =
+      document.getElementById("noteTitle").value.trim();
+
+    const body =
+      document.getElementById("noteBody").value.trim();
+
+    if(!title && !body) return;
+
+    item.title = title || "Untitled note";
+
+    item.body = body;
+
+  }
+
+
+  if(currentSection === "next"){
+
+    const text =
+      document.getElementById("nextText").value.trim();
+
+    if(!text) return;
+
+    item.text = text;
+
+    item.date =
+      document.getElementById("nextDate").value;
+
+    item.priority =
+      document.getElementById("nextPriority").value;
+
+  }
+
+
+  if(currentSection === "goals"){
+
+    const text =
+      document.getElementById("goalText").value.trim();
+
+    if(!text) return;
+
+    item.text = text;
+
+    item.progress = 0;
+
+  }
+
+
+  data[currentSection].unshift(item);
+
+  saveData();
+
+  closeModal();
+
+  render();
+
+}
+
+
+/* ---------------- SEARCH ---------------- */
+
+document.getElementById("search")
+  .addEventListener("input",event => {
+
+    searchTerm =
+      event.target.value;
+
+    renderItems();
+
   });
 
-  document.getElementById('quickAdd').addEventListener('click', ()=>{
-    currentList = 'tasks';
-    render();
-    document.getElementById('listSection').scrollIntoView({behavior:'smooth', block:'start'});
-    setTimeout(()=>{
-      const inputs = rowsEl.querySelectorAll('.task-text');
-      if(inputs.length) inputs[inputs.length-1].focus();
-    }, 350);
+
+document.getElementById("clearSearch")
+  .onclick = () => {
+
+    const search =
+      document.getElementById("search");
+
+    search.value = "";
+
+    searchTerm = "";
+
+    search.focus();
+
+    renderItems();
+
+  };
+
+
+/* ---------------- BUTTONS ---------------- */
+
+document.getElementById("addButton")
+  .onclick = openModal;
+
+document.getElementById("quickAdd")
+  .onclick = openModal;
+
+
+document.querySelectorAll("[data-section]")
+  .forEach(button => {
+
+    button.addEventListener(
+      "click",
+      () => setSection(button.dataset.section)
+    );
+
   });
 
-  searchInput.addEventListener('input', (e)=>{
-    searchTerm = e.target.value;
-    render();
+
+document.getElementById("modal")
+  .addEventListener("click",event => {
+
+    if(event.target.id === "modal"){
+
+      closeModal();
+
+    }
+
   });
 
-  loadAll();
-})();
+
+/* ---------------- START ---------------- */
+
+render();
+
 </script>
+
 </body>
 </html>
